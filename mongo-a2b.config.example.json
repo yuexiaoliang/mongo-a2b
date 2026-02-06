@@ -1,0 +1,12 @@
+{
+  "source": "mongodb://localhost:27017/source",
+  "target": "mongodb://localhost:27017/target",
+  "collections": ["collection1", "collection2"],
+  "exclude": [],
+  "options": {
+    "batchSize": 1000,
+    "dropTarget": false,
+    "dryRun": false,
+    "verbose": false
+  }
+}

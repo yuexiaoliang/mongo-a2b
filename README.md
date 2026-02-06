@@ -1,42 +1,142 @@
-# pkg-placeholder
+# mongo-a2b
 
-[![npm version][npm-version-src]][npm-version-href]
-[![npm downloads][npm-downloads-src]][npm-downloads-href]
-[![bundle][bundle-src]][bundle-href]
-[![JSDocs][jsdocs-src]][jsdocs-href]
-[![License][license-src]][license-href]
+[![npm version](https://img.shields.io/npm/v/mongo-a2b.svg)](https://www.npmjs.com/package/mongo-a2b)
+[![license](https://img.shields.io/npm/l/mongo-a2b.svg)](https://github.com/yuexiaoliang/mongo-a2b/blob/main/LICENSE)
 
-_description_
+MongoDB migration tool - Sync data from source database to target database.
 
-## Note for Developers
+[中文文档](./README.zh-CN.md)
 
-This starter recommands using [npm Trusted Publisher](https://github.com/e18e/ecosystem-issues/issues/201), where the release is done on CI to ensure the security of the packages.
+## Features
 
-To do so, you need to run `pnpm publish` manually for the very first time to create the package on npm, and then go to `https://www.npmjs.com/package/<your-package-name>/access` to set the connection to your GitHub repo.
+- Full database migration support
+- Command line and config file support
+- Batch processing for large datasets
+- Index copying
+- Dry run mode
+- Progress display
 
-Then for the future releases, you can run `pnpm run release` to do the release and the GitHub Actions will take care of the release process.
+## Installation
 
-## Sponsors
+```bash
+npm install -g mongo-a2b
+# or
+pnpm add -g mongo-a2b
+# or
+npx mongo-a2b
+```
 
-<p align="center">
-  <a href="https://cdn.jsdelivr.net/gh/antfu/static/sponsors.svg">
-    <img src='https://cdn.jsdelivr.net/gh/antfu/static/sponsors.svg'/>
-  </a>
-</p>
+## Usage
+
+### Command Line
+
+```bash
+# Basic usage
+mongo-a2b --source mongodb://localhost:27017/sourcedb --target mongodb://localhost:27017/targetdb
+
+# With config file
+mongo-a2b --config mongo-a2b.config.json
+
+# Migrate specific collections
+mongo-a2b -s mongodb://localhost:27017/sourcedb -t mongodb://localhost:27017/targetdb --collections users,orders
+
+# Dry run (show plan without executing)
+mongo-a2b --config mongo-a2b.config.json --dry-run
+
+# Drop target collections before migration
+mongo-a2b --config mongo-a2b.config.json --drop-target
+```
+
+### Options
+
+| Option | Alias | Description | Default |
+|--------|-------|-------------|---------|
+| `--source <uri>` | `-s` | Source database connection URI | - |
+| `--target <uri>` | `-t` | Target database connection URI | - |
+| `--config <path>` | `-c` | Config file path | - |
+| `--collections <list>` | - | Collections to migrate (comma-separated) | All |
+| `--exclude <list>` | - | Collections to exclude (comma-separated) | - |
+| `--batch-size <number>` | - | Batch insert size | 1000 |
+| `--drop-target` | - | Drop target collections before migration | false |
+| `--dry-run` | - | Show migration plan without executing | false |
+| `--verbose` | `-v` | Verbose output mode | false |
+
+### Config File
+
+Create a `mongo-a2b.config.json` or `mongo-a2b.config.yaml` file:
+
+**JSON format:**
+
+```json
+{
+  "source": "mongodb://localhost:27017/sourcedb",
+  "target": "mongodb://localhost:27017/targetdb",
+  "collections": ["users", "orders"],
+  "exclude": ["temp", "logs"],
+  "options": {
+    "batchSize": 1000,
+    "dropTarget": false,
+    "dryRun": false,
+    "verbose": true
+  }
+}
+```
+
+**YAML format:**
+
+```yaml
+source: mongodb://localhost:27017/sourcedb
+target: mongodb://localhost:27017/targetdb
+
+collections:
+  - users
+  - orders
+
+exclude:
+  - temp
+  - logs
+
+options:
+  batchSize: 1000
+  dropTarget: false
+  dryRun: false
+  verbose: true
+```
+
+**Advanced config with connection options:**
+
+```json
+{
+  "source": {
+    "uri": "mongodb://user:pass@localhost:27017",
+    "database": "sourcedb",
+    "options": {
+      "authSource": "admin"
+    }
+  },
+  "target": {
+    "uri": "mongodb://user:pass@localhost:27017",
+    "database": "targetdb"
+  }
+}
+```
+
+## How It Works
+
+1. Connect to source and target MongoDB databases
+2. List all collections from source database
+3. Filter collections based on `collections` and `exclude` options
+4. For each collection:
+   - Copy indexes from source to target
+   - Read documents in batches using cursor
+   - Insert documents to target using `insertMany`
+5. Display migration summary
+
+## Requirements
+
+- Node.js >= 18
+- MongoDB 4.0+
 
 ## License
 
-[MIT](./LICENSE) License © [Anthony Fu](https://github.com/antfu)
-
-<!-- Badges -->
-
-[npm-version-src]: https://img.shields.io/npm/v/pkg-placeholder?style=flat&colorA=080f12&colorB=1fa669
-[npm-version-href]: https://npmjs.com/package/pkg-placeholder
-[npm-downloads-src]: https://img.shields.io/npm/dm/pkg-placeholder?style=flat&colorA=080f12&colorB=1fa669
-[npm-downloads-href]: https://npmjs.com/package/pkg-placeholder
-[bundle-src]: https://img.shields.io/bundlephobia/minzip/pkg-placeholder?style=flat&colorA=080f12&colorB=1fa669&label=minzip
-[bundle-href]: https://bundlephobia.com/result?p=pkg-placeholder
-[license-src]: https://img.shields.io/github/license/antfu/pkg-placeholder.svg?style=flat&colorA=080f12&colorB=1fa669
-[license-href]: https://github.com/antfu/pkg-placeholder/blob/main/LICENSE
-[jsdocs-src]: https://img.shields.io/badge/jsdocs-reference-080f12?style=flat&colorA=080f12&colorB=1fa669
-[jsdocs-href]: https://www.jsdocs.io/package/pkg-placeholder
+[MIT](./LICENSE) License © 2024 [岳晓亮](https://github.com/yuexiaoliang)

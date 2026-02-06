@@ -13,15 +13,24 @@
     "url": "git+https://github.com/yuexiaoliang/mongo-a2b.git"
   },
   "bugs": "https://github.com/yuexiaoliang/mongo-a2b/issues",
-  "keywords": [],
+  "keywords": [
+    "mongodb",
+    "migration",
+    "sync",
+    "cli"
+  ],
   "sideEffects": false,
   "exports": {
     ".": "./dist/index.mjs",
+    "./cli": "./dist/cli.mjs",
     "./package.json": "./package.json"
   },
   "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.mts",
+  "bin": {
+    "mongo-a2b": "./dist/cli.mjs"
+  },
   "files": [
     "dist"
   ],
@@ -35,6 +44,13 @@
     "test": "vitest",
     "typecheck": "tsc",
     "prepare": "simple-git-hooks"
+  },
+  "dependencies": {
+    "commander": "catalog:runtime",
+    "consola": "catalog:runtime",
+    "mongodb": "catalog:runtime",
+    "picocolors": "catalog:runtime",
+    "zod": "catalog:runtime"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:cli",
