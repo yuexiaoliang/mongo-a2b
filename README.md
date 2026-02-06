@@ -139,4 +139,4 @@ options:
 
 ## License
 
-[MIT](./LICENSE) License © 2024 [岳晓亮](https://github.com/yuexiaoliang)
+[MIT](./LICENSE) License © 2026 [岳晓亮](https://github.com/yuexiaoliang)
