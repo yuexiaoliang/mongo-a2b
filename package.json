@@ -1,7 +1,7 @@
 {
   "name": "mongo-a2b",
   "type": "module",
-  "version": "0.0.0",
+  "version": "0.0.1-beta.1",
   "packageManager": "pnpm@10.25.0",
   "description": "MongoDB 数据迁移工具",
   "author": "岳晓亮 <hi@yuexiaoliang.com> (https://github.com/yuexiaoliang)",
