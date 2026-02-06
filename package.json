@@ -1,18 +1,18 @@
 {
-  "name": "pkg-placeholder",
+  "name": "mongo-a2b",
   "type": "module",
   "version": "0.0.0",
   "packageManager": "pnpm@10.25.0",
-  "description": "_description_",
-  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "description": "MongoDB 数据迁移工具",
+  "author": "岳晓亮 <hi@yuexiaoliang.com> (https://github.com/yuexiaoliang)",
   "license": "MIT",
-  "funding": "https://github.com/sponsors/antfu",
-  "homepage": "https://github.com/antfu/pkg-placeholder#readme",
+  "funding": "https://github.com/sponsors/yuexiaoliang",
+  "homepage": "https://github.com/yuexiaoliang/mongo-a2b#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/antfu/pkg-placeholder.git"
+    "url": "git+https://github.com/yuexiaoliang/mongo-a2b.git"
   },
-  "bugs": "https://github.com/antfu/pkg-placeholder/issues",
+  "bugs": "https://github.com/yuexiaoliang/mongo-a2b/issues",
   "keywords": [],
   "sideEffects": false,
   "exports": {
